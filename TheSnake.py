@@ -9,7 +9,7 @@
 #!######################################################################
 
 #  -> Autor : Tomás Tavares
-#  -> Descricao : Jogo da snake no terminal
+#  -> Descricao : Jogo da snake
 
 from menu import menu
 

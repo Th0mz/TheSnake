@@ -5,6 +5,7 @@ X = 0
 Y = 1
 CABECA = 0
 
+# Representação interna da cobra
 class Snake:
     def __init__(self, corpo):
         self.vel = [1, 0]
@@ -64,6 +65,7 @@ class Snake:
                 - d : Ir para a direita
                 - a : Ir para a esquerda
         """
+
         if is_pressed("w") and self.vel != [0, 1]:
             self.vel = [0, -1]
         
