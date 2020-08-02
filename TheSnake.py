@@ -11,6 +11,8 @@
 #  -> Autor : Tomás Tavares
 #  -> Descricao : Jogo da snake
 
+from game_loop import game_loop
+
 import pygame  
 
 pygame.init()
@@ -39,7 +41,7 @@ cor_display = (0, 0, 0)
 cor_highlight = (255, 0, 0)
 posY = 100
 opcoes = [
-    { "nome" : "> Jogar", "exec" : quit},
+    { "nome" : "> Jogar", "exec" : game_loop},
     { "nome" : "> Editar Mapa", "exec" : quit},
     { "nome" : "> Sair", "exec" : quit}
 ]
@@ -57,13 +59,11 @@ while a_correr:
             a_correr = False
         # Uma tecla foi primida
         elif evento.type == pygame.KEYDOWN:
-            print(evento.key)
+            # Funcionalidade para cada tecla
             if evento.key == ord("s"):
-                print("ola")
                 cursor = (cursor + 1) % num_opcoes
                 update = True
             elif evento.key == ord("w"):
-                print("adues")
                 cursor = (cursor - 1) % num_opcoes
                 update = True
             elif evento.key == ENTER:
@@ -85,11 +85,12 @@ while a_correr:
         update = False
         pygame.display.update()
 
-    # Execurcar funcionalidade do cursor
+    # Executar funcionalidade da opção selecionada pelo cursor
     if exe:
         opcoes[cursor]["exec"]()
-
         update = True
+
+        ecra = pygame.display.set_mode(tamanho)
 
 
 pygame.quit()
