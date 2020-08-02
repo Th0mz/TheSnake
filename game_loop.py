@@ -1,7 +1,9 @@
 from snake import Snake
 from mapa import Mapa, X, Y
 
-from time import sleep
+import pygame
+
+COR_BACKGROUND = (40,43,46)
 
 def game_loop():
     """ Main do jogo """
@@ -18,9 +20,28 @@ def game_loop():
 
     # Game loop :
     a_correr = True
+
+    # Ecrã
+    tamanho = (800, 800)
+    ecra = pygame.display.set_mode(tamanho)
+    
+    # FPS
+    clock = pygame.time.Clock()
     
     while a_correr:
-        sleep(0.05)
-
+        clock.tick(10)
+        ecra.fill(COR_BACKGROUND)
+                
+        # Update da cobra
         a_correr = cobra.update(mapa)
-        mapa.display()
+        
+        # Dar display do mapa
+        mapa.display((100, 100), ecra)
+
+        # Receber eventos
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:
+                quit()
+
+        # Dar update do ecrã
+        pygame.display.update()

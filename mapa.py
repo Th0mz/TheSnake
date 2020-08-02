@@ -1,11 +1,19 @@
 from random import randrange
+import pygame
 
-snake_sprite = "\033[1;32;40mX\033[1;37;40m" 
-maca_sprite = "\033[1;31;40mO\033[1;37;40m"
-chao_sprite = "\033[1;30;40m.\033[1;37;40m"
-chao_cursor = "\033[0;30;47m.\033[1;37;40m"
+snake_sprite = "X" 
+COR_SNAKE = (0, 128, 0)
+
+maca_sprite = "O"
+COR_MACA = (139, 0, 0)
+
+chao_sprite = "."
+COR_CHAO = (255, 255, 255)
+chao_cursor = "."
+
 parede_sprite = "#"
-parede_cursor = "\033[0;30;47m#\033[1;37;40m"
+COR_PAREDE = (128, 128, 128) 
+parede_cursor = "#"
 
 
 X = 0
@@ -68,8 +76,9 @@ class Mapa:
         """ Serve para dar update da posicao da cobra no mapa
             removendo o seu ultimo elemento e adicionanto a 
                     nova posicao da sua cabeça"""
-        self.mapa[pos_add[X]][pos_add[Y]] = snake_sprite
+
         self.mapa[pos_rm[X]][pos_rm[Y]] = chao_sprite
+        self.mapa[pos_add[X]][pos_add[Y]] = snake_sprite
     
     def nova_maca(self):
         def update_maca():
@@ -86,15 +95,29 @@ class Mapa:
 
         self.mapa[self.maca[X]][self.maca[Y]] = maca_sprite
 
-    def display(self):
+    def display(self, posicao, ecra):
         """ Renderiza o mapa """
-        print()
-        for y in range(self.tamanho[Y]):
-            linha = ""
+        TAMANHO = 20
+        # Linha que separa os quadrados do jogo
+        INTERVALO = 5
 
+        for y in range(self.tamanho[Y]):
             for x in range(self.tamanho[X]):
-                linha += self.mapa[x][y] + "  "
-            print("   " + linha)
+                if self.mapa[x][y] == chao_sprite:
+                    COR_BLOCO = COR_CHAO
+                elif self.mapa[x][y] == snake_sprite:
+                    COR_BLOCO = COR_SNAKE
+                elif self.mapa[x][y] == parede_sprite:
+                    COR_BLOCO = COR_PAREDE
+                elif self.mapa[x][y] == maca_sprite:
+                    COR_BLOCO = COR_MACA
+                
+                posX = (x * (TAMANHO + INTERVALO)) + posicao[X] + 5
+                posY = (y * (TAMANHO + INTERVALO)) + posicao[Y] + 5
+
+                retangulo = pygame.Rect(posX, posY, TAMANHO, TAMANHO) 
+                pygame.draw.rect(ecra, COR_BLOCO, retangulo)
+
 
     def move_cursor(self, dir_x, dir_y):
         """ Move o cursor """

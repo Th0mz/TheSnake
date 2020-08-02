@@ -80,7 +80,6 @@ while a_correr:
 
             ecra.blit(texto, (50, posY + (opcao * 20)))
 
-
         # Update do ecrã
         update = False
         pygame.display.update()
@@ -89,7 +88,8 @@ while a_correr:
     if exe:
         opcoes[cursor]["exec"]()
         update = True
-
+        exe = False
+        
         ecra = pygame.display.set_mode(tamanho)
 
 
