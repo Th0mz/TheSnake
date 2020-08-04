@@ -1,18 +1,22 @@
 from random import randrange
 import pygame
 
-snake_sprite = "X" 
-COR_SNAKE = (0, 128, 0)
+# Cores :
 
-maca_sprite = "O"
-COR_MACA = (139, 0, 0)
-
-chao_sprite = "."
-COR_CHAO = (255, 255, 255)
-chao_cursor = "."
-
-parede_sprite = "#"
+COR_BACKGROUND = (40,43,46)
+COR_SNAKE = (55, 67, 45) 
+COR_CABECA = (55, 67, 45)
+COR_MACA = (100, 0, 0)
+COR_CHAO = (50, 50, 50)
 COR_PAREDE = (128, 128, 128) 
+
+# Representação no mapa :
+
+snake_sprite = "X" 
+maca_sprite = "O"
+chao_sprite = "."
+chao_cursor = "."
+parede_sprite = "#"
 parede_cursor = "#"
 
 
@@ -40,6 +44,11 @@ class Mapa:
         # Inicializacao do mapa
         self.mapa = []
         self.inicializa_mapa()
+
+        # Tamanho dos quadrados do mapa
+        self.TAMANHO = 20
+        # Linha que separa os quadrados do jogo
+        self.INTERVALO = 0  
         
         if not edit_mode:
             self.nova_maca()
@@ -95,27 +104,28 @@ class Mapa:
 
         self.mapa[self.maca[X]][self.maca[Y]] = maca_sprite
 
-    def display(self, posicao, ecra):
+    def display(self, posicao, ecra, cobra):
         """ Renderiza o mapa """
-        TAMANHO = 20
-        # Linha que separa os quadrados do jogo
-        INTERVALO = 5
+        
 
         for y in range(self.tamanho[Y]):
             for x in range(self.tamanho[X]):
                 if self.mapa[x][y] == chao_sprite:
                     COR_BLOCO = COR_CHAO
                 elif self.mapa[x][y] == snake_sprite:
-                    COR_BLOCO = COR_SNAKE
+                    if cobra.cabeca() == [x, y]:
+                        COR_BLOCO = COR_CABECA
+                    else:
+                        COR_BLOCO = COR_SNAKE
                 elif self.mapa[x][y] == parede_sprite:
                     COR_BLOCO = COR_PAREDE
                 elif self.mapa[x][y] == maca_sprite:
                     COR_BLOCO = COR_MACA
                 
-                posX = (x * (TAMANHO + INTERVALO)) + posicao[X] + 5
-                posY = (y * (TAMANHO + INTERVALO)) + posicao[Y] + 5
+                posX = (x * (self.TAMANHO + self.INTERVALO)) + posicao[X]
+                posY = (y * (self.TAMANHO + self.INTERVALO)) + posicao[Y]
 
-                retangulo = pygame.Rect(posX, posY, TAMANHO, TAMANHO) 
+                retangulo = pygame.Rect(posX, posY, self.TAMANHO, self.TAMANHO) 
                 pygame.draw.rect(ecra, COR_BLOCO, retangulo)
 
 

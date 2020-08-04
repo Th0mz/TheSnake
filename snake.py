@@ -12,14 +12,15 @@ class Snake:
         self.corpo = corpo
         self.tamanho = len(self.corpo)
 
-    def update(self, mapa):
+    def update(self, mapa, tecla):
         """ Da update da cobra e se ela morrer
         da return de false parando o game loop 
         """
-        self.mudar_diracao()
+        self.mudar_diracao(tecla)
         parar = self.mover(mapa)
 
         return parar
+
 
     def mover(self, mapa):
         """ Move a cobra consoante a velocidade que tem e verfica tambem
@@ -57,8 +58,11 @@ class Snake:
         
         # Verificar se a cabeca esta em uma parede
         return self.corpo[CABECA] in paredes
+
+    def cabeca(self):
+        return self.corpo[CABECA]
     
-    def mudar_diracao(self):
+    def mudar_diracao(self, tecla):
         """ Muda a direcao da cobra consoante a tecla pressionada:
                 - w : Ir para cima
                 - s : Ir para baixo
@@ -66,15 +70,15 @@ class Snake:
                 - a : Ir para a esquerda
         """
 
-        if is_pressed("w") and self.vel != [0, 1]:
+        if tecla == "w" and self.vel != [0, 1]:
             self.vel = [0, -1]
         
-        if is_pressed("s") and self.vel != [0, -1]:
+        if tecla == "s" and self.vel != [0, -1]:
             self.vel = [0, 1]
         
-        if is_pressed("d") and self.vel != [-1, 0]:
+        if tecla == "d" and self.vel != [-1, 0]:
             self.vel = [1, 0]
 
-        if is_pressed("a") and self.vel != [1, 0]:
+        if tecla == "a" and self.vel != [1, 0]:
             self.vel = [-1, 0]
     

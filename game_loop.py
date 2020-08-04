@@ -1,9 +1,7 @@
 from snake import Snake
-from mapa import Mapa, X, Y
+from mapa import Mapa, X, Y, COR_BACKGROUND
 
 import pygame
-
-COR_BACKGROUND = (40,43,46)
 
 def game_loop():
     """ Main do jogo """
@@ -22,26 +20,48 @@ def game_loop():
     a_correr = True
 
     # Ecrã
-    tamanho = (800, 800)
+    tamanho_mapa = ((mapa.tamanho[X] * mapa.TAMANHO) + ((mapa.tamanho[X] - 1) * mapa.INTERVALO), \
+                    (mapa.tamanho[Y] * mapa.TAMANHO) + ((mapa.tamanho[Y] - 1) * mapa.INTERVALO))
+
+    pos_mapa = (mapa.TAMANHO, 100)
+
+    tamanho = (tamanho_mapa[X] + 2 * pos_mapa[X], tamanho_mapa[Y] + pos_mapa[X] + pos_mapa[Y])
     ecra = pygame.display.set_mode(tamanho)
+
+    titulo = "The Snake"
+    fonte = pygame.font.SysFont("Comic Sans MS", 20)
+    the_snake = fonte.render(titulo, False, (255, 0, 0))
+
+    text_width, text_height = fonte.size(titulo)
+    # Centrar o texto em relação a posição do mapa
+    pos_texto = (tamanho[X] // 2 - text_width // 2, pos_mapa[Y] // 2 - text_height // 2)
     
     # FPS
     clock = pygame.time.Clock()
+    FPS = 10
     
     while a_correr:
-        clock.tick(10)
+        clock.tick(FPS)
         ecra.fill(COR_BACKGROUND)
-                
-        # Update da cobra
-        a_correr = cobra.update(mapa)
-        
-        # Dar display do mapa
-        mapa.display((100, 100), ecra)
 
+        # Titulo
+        ecra.blit(the_snake, pos_texto)
+
+        tecla = None
         # Receber eventos
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 quit()
+            # Uma tecla foi primida
+            elif evento.type == pygame.KEYDOWN:
+                # Funcionalidade para cada tecla
+                tecla = chr(evento.key)
+                
+        # Update da cobra
+        a_correr = cobra.update(mapa, tecla)
+        
+        # Dar display do mapa
+        mapa.display(pos_mapa, ecra, cobra)
 
         # Dar update do ecrã
         pygame.display.update()

@@ -11,7 +11,7 @@
 #  -> Autor : Tomás Tavares
 #  -> Descricao : Jogo da snake
 
-from game_loop import game_loop
+from game_loop import game_loop, COR_BACKGROUND
 
 import pygame  
 
@@ -49,7 +49,6 @@ opcoes = [
 num_opcoes = len(opcoes)
 
 a_correr = True
-COR_BACKGROUND = (40,43,46)
 
 while a_correr:
 
