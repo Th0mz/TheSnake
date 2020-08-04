@@ -4,20 +4,23 @@ import pygame
 # Cores :
 
 COR_BACKGROUND = (40, 44, 46)
-COR_SNAKE = (0, 85, 0) 
-COR_CABECA = (0, 95, 0)
-COR_MACA = (115, 0, 0)
-COR_CHAO = COR_BACKGROUND
+COR_SNAKE = (0, 100, 0) 
+COR_CABECA = (0, 110, 0)
+COR_MACA = (150, 0, 0)
+COR_CHAO = (50, 54, 56)
 COR_PAREDE = (76, 79, 84) 
+
+COR_CHAO_CURSOR = (0, 0, 0)
+COR_PAREDE_CURSOR = (0, 0, 0)
 
 # Representação no mapa :
 
 snake_sprite = "X" 
 maca_sprite = "O"
 chao_sprite = "."
-chao_cursor = "."
+chao_cursor = "C."
 parede_sprite = "#"
-parede_cursor = "#"
+parede_cursor = "C#"
 
 
 X = 0
@@ -121,6 +124,11 @@ class Mapa:
                     COR_BLOCO = COR_PAREDE
                 elif self.mapa[x][y] == maca_sprite:
                     COR_BLOCO = COR_MACA
+                elif self.mapa[x][y] == chao_cursor:
+                    COR_BLOCO = COR_CHAO_CURSOR
+                elif self.mapa[x][y] == parede_cursor:
+                    COR_BLOCO = COR_PAREDE_CURSOR
+                
                 
                 posX = (x * (self.TAMANHO + self.INTERVALO)) + posicao[X]
                 posY = (y * (self.TAMANHO + self.INTERVALO)) + posicao[Y]

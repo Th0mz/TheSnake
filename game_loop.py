@@ -16,9 +16,6 @@ def game_loop():
 
     mapa = Mapa(tamanho[X], tamanho[Y], cobra, paredes, False)
 
-    # Game loop :
-    a_correr = True
-
     # Ecrã
     tamanho_mapa = ((mapa.tamanho[X] * mapa.TAMANHO) + ((mapa.tamanho[X] - 1) * mapa.INTERVALO), \
                     (mapa.tamanho[Y] * mapa.TAMANHO) + ((mapa.tamanho[Y] - 1) * mapa.INTERVALO))
@@ -39,6 +36,9 @@ def game_loop():
     # FPS
     clock = pygame.time.Clock()
     FPS = 10
+    
+    # Game loop :
+    a_correr = True
     
     while a_correr:
         clock.tick(FPS)

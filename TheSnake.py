@@ -12,6 +12,7 @@
 #  -> Descricao : Jogo da snake
 
 from game_loop import game_loop, COR_BACKGROUND
+from editar_mapa import edit_loop
 
 
 import pygame  
@@ -43,7 +44,7 @@ cor_highlight = (255, 0, 0)
 posY = 100
 opcoes = [
     { "nome" : "> Jogar", "exec" : game_loop},
-    { "nome" : "> Editar Mapa", "exec" : quit},
+    { "nome" : "> Editar Mapa", "exec" : edit_loop},
     { "nome" : "> Sair", "exec" : quit}
 ]
 
