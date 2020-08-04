@@ -3,12 +3,12 @@ import pygame
 
 # Cores :
 
-COR_BACKGROUND = (40,43,46)
-COR_SNAKE = (55, 67, 45) 
-COR_CABECA = (55, 67, 45)
-COR_MACA = (100, 0, 0)
-COR_CHAO = (50, 50, 50)
-COR_PAREDE = (128, 128, 128) 
+COR_BACKGROUND = (40, 44, 46)
+COR_SNAKE = (0, 85, 0) 
+COR_CABECA = (0, 95, 0)
+COR_MACA = (115, 0, 0)
+COR_CHAO = COR_BACKGROUND
+COR_PAREDE = (76, 79, 84) 
 
 # Representação no mapa :
 
@@ -48,7 +48,7 @@ class Mapa:
         # Tamanho dos quadrados do mapa
         self.TAMANHO = 20
         # Linha que separa os quadrados do jogo
-        self.INTERVALO = 0  
+        self.INTERVALO = 4 
         
         if not edit_mode:
             self.nova_maca()

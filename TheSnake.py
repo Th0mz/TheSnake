@@ -13,6 +13,7 @@
 
 from game_loop import game_loop, COR_BACKGROUND
 
+
 import pygame  
 
 pygame.init()

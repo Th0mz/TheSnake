@@ -1,4 +1,3 @@
-from keyboard import is_pressed
 from mapa import snake_sprite, parar_jogo
 
 X = 0
