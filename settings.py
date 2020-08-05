@@ -16,7 +16,7 @@ F = ord("f")
 pygame.font.init()
 
 TAMANHO_OPCOES = 20
-fonteOpcoes = pygame.font.SysFont("Comic Sans MS", 20)
+fonteOpcoes = pygame.font.SysFont("Comic Sans MS", TAMANHO_OPCOES)
 
 TAMANHO_TITULO = 55
 fonteTitulo = pygame.font.Font("fonte.ttf", TAMANHO_TITULO)

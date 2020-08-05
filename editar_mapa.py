@@ -6,7 +6,7 @@ from settings import COR_BACKGROUND, COR_LINHA, COR_TEXTO
 from settings import DISTANCIA_TEXTO, GROSSURA, TAMANHO_TITULO
 from settings import MAPA_TAMANHO, MAPA_INTERVALO
 from settings import ENTER, W, A, S, D, F
-from settings import fonteTitulo, fonteOpcoes
+from settings import fonteTitulo
 from settings import X, Y
 
 import pygame
@@ -15,16 +15,21 @@ import pygame
 mapa_X = 0
 mapa_Y = 0
 def editar_mapa():
+    global mapa_X, mapa_Y
     mapa_X = 10
     mapa_Y = 10
 
     # Inicializar ecrã
-    tamanho = (300, 250)
+    tamanho = (400, 300)
     ecra = pygame.display.set_mode(tamanho)
+
+    # Fonte
+    fonteTexto = pygame.font.SysFont("Comic Sans MS", 30)
+    fonteTituloMenu = pygame.font.Font("fonte.ttf", 43)
 
     # Texto que contem o tamanho do mapa e botão para alterar o tamanho do mapa
 
-    def botao(centro, raio, funcionalidade, executar, ecra):
+    def botao(texto, centro, raio, funcionalidade, executar, ecra):
         def rato_porCima(centro, raio):
             posicao_rato = pygame.mouse.get_pos()
             distancia = sqrt((posicao_rato[X] - centro[X])**2 + (posicao_rato[Y] - centro[Y])**2)
@@ -40,20 +45,35 @@ def editar_mapa():
             funcionalidade()
     
 
-    def selecinador_tamanho(texto, posicao, raio, func_aumento, func_diminuicao, executar, ecra):
-        texto_display = fonteOpcoes.render(str(texto), False, COR_TEXTO)
-        text_width, text_height = fonteOpcoes.size(str(texto))
-        posicao_texto = (posicao[X] - text_width // 2, posicao[Y] - text_height // 2)
+    def selecinador_tamanho(texto, valor, posicao, raio, func_aumento, func_diminuicao, executar, ecra):
+        texto_display = fonteTexto.render(str(valor), False, COR_TEXTO)
+        text_width, text_height = fonteTexto.size(str(valor))
+        posicao_info = (posicao[X] - text_width // 2, posicao[Y] - text_height // 2)
 
         # Informação sobre o tamanho do mapa
-        ecra.blit(texto_display, posicao_texto)
+        ecra.blit(texto_display, posicao_info)
         
-        DISTANCIA_AO_TEXTO = 5
+        DISTANCIA_AO_TEXTO = raio // 2  
         # Botão de diminuir
-        botao((posicao_texto[X] - raio - DISTANCIA_AO_TEXTO, posicao[Y]), 10, func_diminuicao, executar, ecra)
+        DISTANCIA_TEXTO_CENTRO = raio + DISTANCIA_AO_TEXTO
+        botao("+", (posicao_info[X] - DISTANCIA_TEXTO_CENTRO, posicao[Y]), raio, func_diminuicao, executar, ecra)
         
         # Botão de aumento
-        botao((posicao_texto[X] + text_width + raio + DISTANCIA_AO_TEXTO, posicao[Y]), 10, func_aumento, executar, ecra)
+        botao("-", (posicao_info[X] + text_width + DISTANCIA_TEXTO_CENTRO, posicao[Y]), raio, func_aumento, executar, ecra)
+
+        # Texto :
+        titulo = fonteTituloMenu.render(texto, False, COR_TEXTO)
+        text_width, text_height = fonteTituloMenu.size(str(texto))
+        posicao_texto = (posicao[X] - text_width // 2, posicao[Y] - text_height // 2 - raio * 2)
+
+        ecra.blit(titulo, posicao_texto)
+
+        # Linha : 
+        ESPACO_LINHA_TEXTO = 5
+        OFFSET = 30
+        linha = pygame.Rect(posicao_texto[X] - OFFSET // 2, posicao[Y] - raio - GROSSURA - ESPACO_LINHA_TEXTO, text_width + OFFSET, GROSSURA)
+        pygame.draw.rect(ecra, COR_LINHA, linha)
+
 
     # Funções dos botões
     def aumenta_mapaX():
@@ -66,12 +86,12 @@ def editar_mapa():
 
     def diminui_mapaX():
         global mapa_X
-        if mapa_X >= 1:
+        if mapa_X > 1:
             mapa_X -= 1
 
     def diminui_mapaY():
         global mapa_Y
-        if mapa_Y >= 1:
+        if mapa_Y > 1:
             mapa_Y -= 1
 
     # Display loop :
@@ -100,8 +120,8 @@ def editar_mapa():
         ecra.fill(COR_BACKGROUND)
 
         # Display do texto
-        selecinador_tamanho(mapa_X, (50, tamanho[Y] // 2), 10, aumenta_mapaX, diminui_mapaX, clicado, ecra)
-        selecinador_tamanho(mapa_Y, (250, tamanho[Y] // 2), 10, aumenta_mapaY, diminui_mapaY, clicado, ecra)
+        selecinador_tamanho("Largura do mapa", mapa_X, (tamanho[X] // 2, (3 *tamanho[Y]) // 9) , 25, aumenta_mapaX, diminui_mapaX, clicado, ecra)
+        selecinador_tamanho("Altura do mapa", mapa_Y, (tamanho[X] // 2, (7 *tamanho[Y]) // 9) , 25, aumenta_mapaY, diminui_mapaY, clicado, ecra)
 
         #    Dar update do ecrã
         pygame.display.update()
