@@ -1,11 +1,17 @@
 from snake import Snake
-from mapa import Mapa, X, Y, COR_BACKGROUND
+from mapa import Mapa
+
+from settings import COR_BACKGROUND, COR_LINHA, COR_TEXTO
+from settings import DISTANCIA_TEXTO, GROSSURA, TAMANHO_TITULO
+from settings import MAPA_TAMANHO, MAPA_INTERVALO
+from settings import fonteTitulo
+from settings import X, Y
 
 import pygame
 
 def game_loop():
     """ Main do jogo """
-    # Ler mapa :
+    # Ler mapa guardado :
     with open("mapa.txt") as ficheiro:
         tamanho = eval(ficheiro.readline())
         paredes = eval(ficheiro.readline())
@@ -16,23 +22,30 @@ def game_loop():
 
     mapa = Mapa(tamanho[X], tamanho[Y], cobra, paredes, False)
 
-    # Ecrã
-    tamanho_mapa = ((mapa.tamanho[X] * mapa.TAMANHO) + ((mapa.tamanho[X] - 1) * mapa.INTERVALO), \
-                    (mapa.tamanho[Y] * mapa.TAMANHO) + ((mapa.tamanho[Y] - 1) * mapa.INTERVALO))
+    # Calculo das posições / tamanho do mapa em relação ao tamanho  
+    #   da janela e calculo do tamanho necessario para a janela
+    tamanho_mapa = ((mapa.tamanho[X] * MAPA_TAMANHO) + ((mapa.tamanho[X] - 1) * MAPA_INTERVALO), \
+                    (mapa.tamanho[Y] * MAPA_TAMANHO) + ((mapa.tamanho[Y] - 1) * MAPA_INTERVALO))
 
-    pos_mapa = (mapa.TAMANHO, 100)
+    pos_mapa = (MAPA_TAMANHO, 110)
 
     tamanho = (tamanho_mapa[X] + 2 * pos_mapa[X], tamanho_mapa[Y] + pos_mapa[X] + pos_mapa[Y])
+
+    # Ecrã
     ecra = pygame.display.set_mode(tamanho)
 
+    # Header
     titulo = "The Snake"
-    fonte = pygame.font.SysFont("Comic Sans MS", 20)
-    the_snake = fonte.render(titulo, False, (255, 0, 0))
+    the_snake = fonteTitulo.render(titulo, False, COR_TEXTO)
 
-    text_width, text_height = fonte.size(titulo)
+    text_width, text_height = fonteTitulo.size(titulo) # Dimenções do retangulo que involve o texto
+
     # Centrar o texto em relação a posição do mapa
     pos_texto = (tamanho[X] // 2 - text_width // 2, pos_mapa[Y] // 2 - text_height // 2)
     
+    # Linha por baixo do titulo
+    retangulo = pygame.Rect(pos_mapa[X], pos_texto[Y] + text_height + DISTANCIA_TEXTO , tamanho_mapa[X], GROSSURA) 
+
     # FPS
     clock = pygame.time.Clock()
     FPS = 10
@@ -46,6 +59,7 @@ def game_loop():
 
         # Titulo
         ecra.blit(the_snake, pos_texto)
+        pygame.draw.rect(ecra, COR_LINHA, retangulo)
 
         tecla = None
         # Receber eventos

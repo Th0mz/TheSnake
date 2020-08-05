@@ -1,9 +1,7 @@
 from mapa import snake_sprite, parar_jogo
+from settings import X, Y
 
-X = 0
-Y = 1
 CABECA = 0
-
 # Representação interna da cobra
 class Snake:
     def __init__(self, corpo):

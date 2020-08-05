@@ -1,11 +1,14 @@
 from snake import Snake
-from mapa import Mapa, COR_BACKGROUND
+from mapa import Mapa
+
+from settings import COR_BACKGROUND, COR_LINHA, COR_TEXTO
+from settings import DISTANCIA_TEXTO, GROSSURA, TAMANHO_TITULO
+from settings import MAPA_TAMANHO, MAPA_INTERVALO
+from settings import ENTER, W, A, S, D, F
+from settings import fonteTitulo
+from settings import X, Y
 
 import pygame
-
-X = 0
-Y = 1
-ENTER = 13
 
 
 def editar_mapa():
@@ -20,26 +23,29 @@ def edit_loop():
     mapa = editar_mapa()
     cobra = Snake([])
 
-    # Ecrã
-    tamanho_mapa = ((mapa.tamanho[X] * mapa.TAMANHO) + ((mapa.tamanho[X] - 1) * mapa.INTERVALO), \
-                    (mapa.tamanho[Y] * mapa.TAMANHO) + ((mapa.tamanho[Y] - 1) * mapa.INTERVALO))
+    # Calculo das posições / tamanho do mapa em relação ao tamanho  
+    #   da janela e calculo do tamanho necessario para a janela
+    tamanho_mapa = ((mapa.tamanho[X] * MAPA_TAMANHO) + ((mapa.tamanho[X] - 1) * MAPA_INTERVALO), \
+                    (mapa.tamanho[Y] * MAPA_TAMANHO) + ((mapa.tamanho[Y] - 1) * MAPA_INTERVALO))
 
-    pos_mapa = (mapa.TAMANHO, 100)
+    pos_mapa = (MAPA_TAMANHO, 110)
 
     tamanho = (tamanho_mapa[X] + 2 * pos_mapa[X], tamanho_mapa[Y] + pos_mapa[X] + pos_mapa[Y])
+
+    # Ecrã
     ecra = pygame.display.set_mode(tamanho)
 
+    # Header
     titulo = "Editar"
-    fonte = pygame.font.SysFont("Comic Sans MS", 20)
-    the_snake = fonte.render(titulo, False, (255, 0, 0))
+    
+    the_snake = fonteTitulo.render(titulo, False, COR_TEXTO)
+    text_width, text_height = fonteTitulo.size(titulo)
 
-    text_width, text_height = fonte.size(titulo)
     # Centrar o texto em relação a posição do mapa
     pos_texto = (tamanho[X] // 2 - text_width // 2, pos_mapa[Y] // 2 - text_height // 2)
     
-    # FPS
-    clock = pygame.time.Clock()
-    FPS = 10
+    # Linha por baixo do titulo
+    retangulo = pygame.Rect(pos_mapa[X], pos_texto[Y] + text_height + DISTANCIA_TEXTO , tamanho_mapa[X], GROSSURA)
 
     tamanho = (mapa.tamanho[X] * 3 + 6, mapa.tamanho[Y] + 8)
 
@@ -48,11 +54,11 @@ def edit_loop():
     update = True
     
     while a_correr:
-        clock.tick(FPS)
         ecra.fill(COR_BACKGROUND)
 
         # Titulo
         ecra.blit(the_snake, pos_texto)
+        pygame.draw.rect(ecra, COR_LINHA, retangulo)
 
         # Receber eventos
         for evento in pygame.event.get():
@@ -62,16 +68,16 @@ def edit_loop():
             elif evento.type == pygame.KEYDOWN:
                 # Funcionalidade para cada tecla
                     # Movimaneto do cursor
-                if evento.key == ord("w"):
+                if evento.key == W:
                     mapa.move_cursor(0, -1)
                     update = True
-                elif evento.key == ord("s"):
+                elif evento.key == S:
                     mapa.move_cursor(0, 1)
                     update = True
-                elif evento.key == ord("d"):
+                elif evento.key == D:
                     mapa.move_cursor(1, 0)
                     update = True
-                elif evento.key == ord("a"):
+                elif evento.key == A:
                     mapa.move_cursor(-1, 0)
                     update = True
 
@@ -81,7 +87,7 @@ def edit_loop():
                     update = True
                 
                 # Guardar mapa e sair do modo de edição
-                elif evento.key == ord("f"):
+                elif evento.key == F:
                     a_correr = False
 
         if update:

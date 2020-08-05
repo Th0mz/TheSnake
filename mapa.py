@@ -1,18 +1,9 @@
 from random import randrange
 import pygame
 
-# Cores :
-
-COR_BACKGROUND = (40, 44, 46)
-COR_SNAKE = (0, 100, 0) 
-COR_CABECA = (0, 110, 0)
-COR_MACA = (150, 0, 0)
-COR_CHAO = (50, 54, 56)
-COR_PAREDE = (76, 79, 84) 
-
-COR_CHAO_CURSOR = (0, 0, 0)
-COR_PAREDE_CURSOR = (0, 0, 0)
-
+from settings import COR_CABECA, COR_CHAO, COR_CURSOR, COR_MACA, COR_PAREDE, COR_SNAKE
+from settings import MAPA_TAMANHO, MAPA_INTERVALO
+from settings import X, Y
 # Representação no mapa :
 
 snake_sprite = "X" 
@@ -21,10 +12,6 @@ chao_sprite = "."
 chao_cursor = "C."
 parede_sprite = "#"
 parede_cursor = "C#"
-
-
-X = 0
-Y = 1 
 
 def parar_jogo():
     global a_correr
@@ -47,11 +34,6 @@ class Mapa:
         # Inicializacao do mapa
         self.mapa = []
         self.inicializa_mapa()
-
-        # Tamanho dos quadrados do mapa
-        self.TAMANHO = 20
-        # Linha que separa os quadrados do jogo
-        self.INTERVALO = 4 
         
         if not edit_mode:
             self.nova_maca()
@@ -110,31 +92,42 @@ class Mapa:
     def display(self, posicao, ecra, cobra):
         """ Renderiza o mapa """
         
-
         for y in range(self.tamanho[Y]):
             for x in range(self.tamanho[X]):
+
+                # Criar retangulo
+                posX = (x * (MAPA_TAMANHO + MAPA_INTERVALO)) + posicao[X]
+                posY = (y * (MAPA_TAMANHO + MAPA_INTERVALO)) + posicao[Y]
+
+                retangulo = pygame.Rect(posX, posY, MAPA_TAMANHO, MAPA_TAMANHO) 
+
                 if self.mapa[x][y] == chao_sprite:
                     COR_BLOCO = COR_CHAO
+                    OUTLINE = 0
                 elif self.mapa[x][y] == snake_sprite:
                     if cobra.cabeca() == [x, y]:
                         COR_BLOCO = COR_CABECA
+                        OUTLINE = 0
                     else:
                         COR_BLOCO = COR_SNAKE
+                        OUTLINE = 0
                 elif self.mapa[x][y] == parede_sprite:
                     COR_BLOCO = COR_PAREDE
+                    OUTLINE = 0
                 elif self.mapa[x][y] == maca_sprite:
                     COR_BLOCO = COR_MACA
+                    OUTLINE = 0
                 elif self.mapa[x][y] == chao_cursor:
-                    COR_BLOCO = COR_CHAO_CURSOR
+                    COR_BLOCO = COR_CURSOR
+                    OUTLINE = 3
                 elif self.mapa[x][y] == parede_cursor:
-                    COR_BLOCO = COR_PAREDE_CURSOR
+                    # Display da parede atras do cursor
+                    pygame.draw.rect(ecra, COR_PAREDE, retangulo, 0)    
+                    COR_BLOCO = COR_CURSOR
+                    OUTLINE = 3
                 
-                
-                posX = (x * (self.TAMANHO + self.INTERVALO)) + posicao[X]
-                posY = (y * (self.TAMANHO + self.INTERVALO)) + posicao[Y]
-
-                retangulo = pygame.Rect(posX, posY, self.TAMANHO, self.TAMANHO) 
-                pygame.draw.rect(ecra, COR_BLOCO, retangulo)
+                # Dipslay do retangulo
+                pygame.draw.rect(ecra, COR_BLOCO, retangulo, OUTLINE)
 
 
     def move_cursor(self, dir_x, dir_y):
