@@ -25,6 +25,7 @@ def editar_mapa():
 
     # Fonte
     fonteTexto = pygame.font.SysFont("Comic Sans MS", 30)
+    fonteSinais = pygame.font.SysFont("Comic Sans MS", 25)
     fonteTituloMenu = pygame.font.Font("fonte.ttf", 43)
 
     # Texto que contem o tamanho do mapa e botão para alterar o tamanho do mapa
@@ -37,8 +38,15 @@ def editar_mapa():
             return distancia <= raio
 
         # Renderizar o botão
-        cor = (255, 255, 255) if rato_porCima(centro, raio) else (0, 0, 0)
+        cor = (50, 50, 50) if rato_porCima(centro, raio) else (60, 60, 60)
         pygame.draw.circle(ecra, cor, centro, raio)
+
+        # Sinal 
+        sinal = fonteSinais.render(texto, False, COR_TEXTO)
+        text_width, text_height = fonteSinais.size(texto)
+        posicao_info = (centro[X] - text_width // 2, centro[Y] - text_height // 2)
+
+        ecra.blit(sinal, posicao_info)
 
         # Executar funcionalidade do botão
         if executar and rato_porCima(centro, raio):
@@ -46,7 +54,7 @@ def editar_mapa():
     
 
     def selecinador_tamanho(texto, valor, posicao, raio, func_aumento, func_diminuicao, executar, ecra):
-        texto_display = fonteTexto.render(str(valor), False, COR_TEXTO)
+        texto_display = fonteTexto.render(str(valor), False, (171, 173, 175))
         text_width, text_height = fonteTexto.size(str(valor))
         posicao_info = (posicao[X] - text_width // 2, posicao[Y] - text_height // 2)
 
@@ -56,10 +64,10 @@ def editar_mapa():
         DISTANCIA_AO_TEXTO = raio // 2  
         # Botão de diminuir
         DISTANCIA_TEXTO_CENTRO = raio + DISTANCIA_AO_TEXTO
-        botao("+", (posicao_info[X] - DISTANCIA_TEXTO_CENTRO, posicao[Y]), raio, func_diminuicao, executar, ecra)
+        botao("-", (posicao_info[X] - DISTANCIA_TEXTO_CENTRO, posicao[Y]), raio, func_diminuicao, executar, ecra)
         
         # Botão de aumento
-        botao("-", (posicao_info[X] + text_width + DISTANCIA_TEXTO_CENTRO, posicao[Y]), raio, func_aumento, executar, ecra)
+        botao("+", (posicao_info[X] + text_width + DISTANCIA_TEXTO_CENTRO, posicao[Y]), raio, func_aumento, executar, ecra)
 
         # Texto :
         titulo = fonteTituloMenu.render(texto, False, COR_TEXTO)

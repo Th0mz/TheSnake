@@ -41,8 +41,8 @@ POS_OPCOES = (50, 115)
 ESPACO = 30
 
 #  > Cores
-COR_DISPLAY = (0, 0, 0) # Cor normal de display
-COR_HIGHLIGHT = (255, 0, 0) # Cor quando o cursor está a selecionar a opção
+COR_DISPLAY = (25, 25, 25) # Cor normal de display
+COR_HIGHLIGHT = (165, 12, 14) # Cor quando o cursor está a selecionar a opção
 
 
 
@@ -51,7 +51,7 @@ COR_HIGHLIGHT = (255, 0, 0) # Cor quando o cursor está a selecionar a opção
 COR_BACKGROUND = (40, 44, 46)
 COR_SNAKE = (0, 100, 0) 
 COR_CABECA = (0, 110, 0)
-COR_MACA = (150, 0, 0)
+COR_MACA = (165, 12, 14)
 COR_CHAO = (50, 54, 56)
 COR_PAREDE = (76, 79, 84) 
 
