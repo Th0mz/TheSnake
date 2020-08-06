@@ -1,13 +1,21 @@
 from mapa import snake_sprite, parar_jogo
 from settings import X, Y
 
+from time import time
+
 CABECA = 0
+TEMPO_BONUS = 3
 # Representação interna da cobra
 class Snake:
     def __init__(self, corpo):
         self.vel = [1, 0]
         self.corpo = corpo
         self.tamanho = len(self.corpo)
+
+        self.tempo_comeu_maca = time()
+        self.tempo_comeu_maca = 0
+
+        self.score = 0
 
     def update(self, mapa, tecla):
         """ Da update da cobra e se ela morrer
@@ -17,7 +25,6 @@ class Snake:
         parar = self.mover(mapa)
 
         return parar
-
 
     def mover(self, mapa):
         """ Move a cobra consoante a velocidade que tem e verfica tambem
@@ -31,9 +38,21 @@ class Snake:
         self.corpo = prox_posicao + self.corpo
 
         if prox_posicao == [mapa.maca]:
-            # A posicao da cabeça vai ser a maca
+            # A posicao da cabeça vai ser a maca [Cobra comeu a maça]
             mapa.mapa[prox_posicao[0][X]][prox_posicao[0][Y]] = snake_sprite
             self.tamanho += 1
+
+            self.tempo_comeu_maca2 = time()
+
+            if (self.tempo_comeu_maca2 - self.tempo_comeu_maca) < TEMPO_BONUS:
+                bonus = 2
+            else:
+                bonus = 1
+
+            self.tempo_comeu_maca = self.tempo_comeu_maca2
+            self.tempo_comeu_maca2 = 0
+
+            self.score += (100 + self.tamanho * 5) * bonus
 
             mapa.nova_maca()
 
