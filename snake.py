@@ -1,10 +1,10 @@
 from mapa import snake_sprite, parar_jogo
+from settings import TEMPO_BONUS
 from settings import X, Y
 
 from time import time
 
 CABECA = 0
-TEMPO_BONUS = 3
 # Representação interna da cobra
 class Snake:
     def __init__(self, corpo):

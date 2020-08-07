@@ -3,8 +3,8 @@ from mapa import Mapa
 
 from settings import COR_BACKGROUND, COR_LINHA, COR_TEXTO
 from settings import DISTANCIA_TEXTO, GROSSURA, TAMANHO_TITULO
-from settings import MAPA_TAMANHO, MAPA_INTERVALO
-from settings import fonteTitulo
+from settings import MAPA_TAMANHO, MAPA_INTERVALO, FPS
+from settings import fonteTitulo, fonteScore
 from settings import X, Y
 
 import pygame
@@ -27,7 +27,7 @@ def game_loop():
     tamanho_mapa = ((mapa.tamanho[X] * MAPA_TAMANHO) + ((mapa.tamanho[X] - 1) * MAPA_INTERVALO), \
                     (mapa.tamanho[Y] * MAPA_TAMANHO) + ((mapa.tamanho[Y] - 1) * MAPA_INTERVALO))
 
-    pos_mapa = (MAPA_TAMANHO, 110)
+    pos_mapa = (MAPA_TAMANHO, 120)
 
     tamanho = (tamanho_mapa[X] + 2 * pos_mapa[X], tamanho_mapa[Y] + pos_mapa[X] + pos_mapa[Y])
 
@@ -36,19 +36,26 @@ def game_loop():
 
     # Header
     titulo = "The Snake"
-    the_snake = fonteTitulo.render(titulo, False, COR_TEXTO)
+    the_snake = fonteTitulo.render(titulo, True, COR_TEXTO)
 
     text_width, text_height = fonteTitulo.size(titulo) # Dimenções do retangulo que involve o texto
 
     # Centrar o texto em relação a posição do mapa
-    pos_texto = (tamanho[X] // 2 - text_width // 2, pos_mapa[Y] // 2 - text_height // 2)
+    pos_texto = (tamanho[X] // 2 - text_width // 2, 10)
     
     # Linha por baixo do titulo
-    retangulo = pygame.Rect(pos_mapa[X], pos_texto[Y] + text_height + DISTANCIA_TEXTO , tamanho_mapa[X], GROSSURA) 
+    pos_retangulo = (pos_mapa[X], pos_texto[Y] + text_height + DISTANCIA_TEXTO)
+    retangulo = pygame.Rect(pos_retangulo[X], pos_retangulo[Y] , tamanho_mapa[X], GROSSURA) 
+
+    # Score :
+    score = "Score :"
+    pos_score = (pos_retangulo[X], pos_retangulo[Y] + GROSSURA + 5)
+    score_width, score_height = fonteScore.size(score)
+    pos_pontos = (pos_score[X] + score_width + 10, pos_score[Y])
 
     # FPS
     clock = pygame.time.Clock()
-    FPS = 10
+    
     
     # Game loop :
     a_correr = True
@@ -60,6 +67,12 @@ def game_loop():
         # Titulo
         ecra.blit(the_snake, pos_texto)
         pygame.draw.rect(ecra, COR_LINHA, retangulo)
+
+        # Score
+        score_texto = fonteScore.render(score, True, (140, 142, 143))
+        pontos_texto = fonteScore.render(str(cobra.score), True, COR_TEXTO)
+        ecra.blit(score_texto, pos_score)
+        ecra.blit(pontos_texto, pos_pontos)
 
         tecla = None
         # Receber eventos

@@ -4,6 +4,14 @@ import pygame
 X = 0
 Y = 1 
 
+# Gameplay
+    # Intervalo de tempo que o jogador tem ao apanhar uma maça 
+    # para apanhar a proxima para poder receber um bonus de pontos
+TEMPO_BONUS = 3
+
+    # Ticks do jogo [FPS]
+FPS = 10
+
 # Teclas :
 ENTER = 13
 W = ord("w")
@@ -15,11 +23,14 @@ F = ord("f")
 # Fontes :
 pygame.font.init()
 
-TAMANHO_OPCOES = 20
-fonteOpcoes = pygame.font.SysFont("Comic Sans MS", TAMANHO_OPCOES)
+TAMANHO_OPCOES = 22
+fonteOpcoes = pygame.font.Font("opcoes.ttf", TAMANHO_OPCOES)
 
 TAMANHO_TITULO = 55
 fonteTitulo = pygame.font.Font("fonte.ttf", TAMANHO_TITULO)
+
+TAMANHO_SCORE = 20
+fonteScore = pygame.font.Font("score.ttf", TAMANHO_SCORE)
 
 
     # Header :
@@ -35,14 +46,15 @@ GROSSURA = 4
 
     # Opções :
 #  > Posição
-POS_OPCOES = (50, 115)
+POS_OPCOES = (80, 115)
 
 #  > Espaço
 ESPACO = 30
 
 #  > Cores
-COR_DISPLAY = (25, 25, 25) # Cor normal de display
-COR_HIGHLIGHT = (165, 12, 14) # Cor quando o cursor está a selecionar a opção
+COR_PONTOS = (18, 18, 18) # Cor dos pontos
+COR_OPCOES = tuple([27] * 3) # Cor do texto
+COR_CURSOR_MENU = (90, 90, 90) # Cor do cursor que seleciona a opção
 
 
 

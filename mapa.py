@@ -9,9 +9,9 @@ from settings import X, Y
 snake_sprite = "X" 
 maca_sprite = "O"
 chao_sprite = "."
-chao_cursor = "C."
+chao_cursor = ">."
 parede_sprite = "#"
-parede_cursor = "C#"
+parede_cursor = ">#"
 
 def parar_jogo():
     global a_correr

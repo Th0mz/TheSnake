@@ -16,8 +16,8 @@ mapa_X = 0
 mapa_Y = 0
 def editar_mapa():
     global mapa_X, mapa_Y
-    mapa_X = 10
-    mapa_Y = 10
+    mapa_X = 15
+    mapa_Y = 15
 
     # Inicializar ecrã
     tamanho = (400, 300)
@@ -42,7 +42,7 @@ def editar_mapa():
         pygame.draw.circle(ecra, cor, centro, raio)
 
         # Sinal 
-        sinal = fonteSinais.render(texto, False, COR_TEXTO)
+        sinal = fonteSinais.render(texto, True, COR_TEXTO)
         text_width, text_height = fonteSinais.size(texto)
         posicao_info = (centro[X] - text_width // 2, centro[Y] - text_height // 2)
 
@@ -54,7 +54,7 @@ def editar_mapa():
     
 
     def selecinador_tamanho(texto, valor, posicao, raio, func_aumento, func_diminuicao, executar, ecra):
-        texto_display = fonteTexto.render(str(valor), False, (171, 173, 175))
+        texto_display = fonteTexto.render(str(valor), True, (171, 173, 175))
         text_width, text_height = fonteTexto.size(str(valor))
         posicao_info = (posicao[X] - text_width // 2, posicao[Y] - text_height // 2)
 
@@ -70,7 +70,7 @@ def editar_mapa():
         botao("+", (posicao_info[X] + text_width + DISTANCIA_TEXTO_CENTRO, posicao[Y]), raio, func_aumento, executar, ecra)
 
         # Texto :
-        titulo = fonteTituloMenu.render(texto, False, COR_TEXTO)
+        titulo = fonteTituloMenu.render(texto, True, COR_TEXTO)
         text_width, text_height = fonteTituloMenu.size(str(texto))
         posicao_texto = (posicao[X] - text_width // 2, posicao[Y] - text_height // 2 - raio * 2)
 
@@ -160,7 +160,7 @@ def edit_loop():
     # Header
     titulo = "Editar"
     
-    editar = fonteTitulo.render(titulo, False, COR_TEXTO)
+    editar = fonteTitulo.render(titulo, True, COR_TEXTO)
     text_width, text_height = fonteTitulo.size(titulo)
 
     # Centrar o texto em relação a posição do mapa
